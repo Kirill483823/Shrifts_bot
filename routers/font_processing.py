@@ -44,16 +44,15 @@ async def error_answer(callback: CallbackQuery):
 
 """Обработка нажатия на кнопку 'Oтправить текст' и 'новый текст'"""
 @processing_router.callback_query(F.data == "accept_text")
-
 async def waiting_text(callback: CallbackQuery, state: FSMContext):
 
     await state.clear()
     await state.set_state(States_bot.wait_send_text)
 
     photo = FILE_ID_FOR_WAITING_TEXT
-    text = "❇️ Просто тправте текст:\n\n⚠️Использовать можно любые буквы, символы, цифры,"\
-           " но обработаются только латинские (английские) буквы и цифры,"\
-           " всё остальное останется без изменений.\n"
+    text = "❇️ Просто отправте текст:\n\n⚠️Использовать можно любые буквы, символы, цифры,"\
+           " изменится только текст на английском языке или цифры,"\
+           " всё остальное останется без изменений."
 
     await callback.answer()
     try:
