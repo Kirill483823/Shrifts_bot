@@ -1,9 +1,8 @@
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram import F, Router
-from aiogram.filters import StateFilter
 
-from keyboards.keyboard_for_choose_fonts import create_choose_fonts
+from keyboards.keyboard_for_choose_fonts import create_choose_fonts, unknown_error
 from States.bot_states import States_bot
 from config import FILE_ID_FOR_WAITING_TEXT
 
@@ -21,9 +20,6 @@ shrifts_dict = fonts_map_funcs = { #список функций преобраз
     "script": fancify_text.script,
     "fraktur": fancify_text.fraktur,
     "double_struck": fancify_text.doubleStruck,
-    "boxed": fancify_text.boxed,
-    "currency": fancify_text.currency,
-    "blue": fancify_text.blue,
     "blue": fancify_text.blue,
     "smallCaps": fancify_text.smallCaps,
     "curly": fancify_text.curly,
@@ -38,11 +34,12 @@ shrifts_dict = fonts_map_funcs = { #список функций преобраз
     "magic": fancify_text.magic,
 }
 
-"""Oтвет в случае ошибки"""
-async def error_answer(callback: CallbackQuery):
-    await callback.message.answer("⚠️ Ошибка, попробуйте перезапустить бота")
+#Oтвет в случае ошибки
+async def error_answer(callback: CallbackQuery, text: str = "⚠️ Ошибка, попробуйте перезапустить бота."):
+    await callback.message.answer(text, reply_markup=unknown_error())
 
-"""Обработка нажатия на кнопку 'Oтправить текст' и 'новый текст'"""
+#Обработка нажатия на кнопку 'Oтправить текст' и 'новый текст'
+#и ожидание текста от пользователя
 @processing_router.callback_query(F.data == "accept_text")
 async def waiting_text(callback: CallbackQuery, state: FSMContext):
 
@@ -50,9 +47,9 @@ async def waiting_text(callback: CallbackQuery, state: FSMContext):
     await state.set_state(States_bot.wait_send_text)
 
     photo = FILE_ID_FOR_WAITING_TEXT
-    text = "❇️ Просто отправте текст:\n\n⚠️Использовать можно любые буквы, символы, цифры,"\
-           " но изменитсяизменится только текст на английском языке или цифры,"\
-           " всё остальное останется без изменений."
+    text = "❇️ Просто отправьте текст:\n\n⚠️Использовать можно любые буквы, символы, цифры,"\
+           " но обработаются только латинские (английские) буквы и цифры,"\
+           " всё остальное останется без изменений.\n"
 
     await callback.answer()
     try:
@@ -62,7 +59,7 @@ async def waiting_text(callback: CallbackQuery, state: FSMContext):
 
     await callback.message.answer_photo(photo=photo, caption=text)
 
-"""Получение текста"""
+#Получение текста
 @processing_router.message(States_bot.wait_send_text, F.text)
 async def send_keyb_with_srifts(message: Message, state: FSMContext):
 
@@ -74,6 +71,7 @@ async def send_keyb_with_srifts(message: Message, state: FSMContext):
 
     await message.answer(text, reply_markup=create_choose_fonts(shrifts_dict))
 
+#Пользовател выбрал шрифт
 @processing_router.callback_query(F.data.startswith("shrift:"))
 async def text_processing(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
@@ -81,15 +79,24 @@ async def text_processing(callback: CallbackQuery, state: FSMContext):
     text = data.get("user_text")
 
     if text is None:
-        await error_answer(callback)
+        await state.clear()#потому что так сказала нейронка
+        try:#Для того чтобы не вылезла ошибка, хз как поьзователь может её вызвать кнчн
+            await callback.message.delete()
+        except Exception:
+            pass
+
+        await error_answer(callback, text="⚠️ Ошибка, текст не найден. Задайте новый текст.")
         return
 
-    try: #это если поьзователь нажал на туже кнопку два раза
+    try: #try нужен на случай если пользователь нажал на туже кнопку два раза
         key = callback.data.split(':')[1]
-        await callback.message.edit_text(shrifts_dict[key](text), reply_markup=create_choose_fonts(shrifts_dict))
+        keyboard = create_choose_fonts(shrifts_dict)
+        await callback.message.edit_text(shrifts_dict[key](text), reply_markup=keyboard)
 
     except Exception as e:
         if "message is not modified" in str(e).lower():
+        #"message is not modified" - это ошибка которая возникает
+        #если пользователь нажал на туже кнопку два раза
             return
         else:
             await error_answer(callback)

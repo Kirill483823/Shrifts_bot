@@ -11,6 +11,7 @@ def create_choose_fonts(shrifts_dict: dict):
     for key, func in shrifts_dict.items():
 
         text=func(default_text)
+
         if text == None or text == "":  #проверка на то что вернула функция для текста
             text = "Ошибка"             #кнопкпи, в кнопке не может быть None | ""
 
@@ -19,4 +20,12 @@ def create_choose_fonts(shrifts_dict: dict):
     builder.button(text="📖 На главную", callback_data="back_button_to_main_menu")
     builder.button(text="🆕 Новый текст", callback_data="accept_text")
     builder.adjust(2)
+    return builder.as_markup()
+
+#клавиатуры для ошибок
+def unknown_error():
+    builder = InlineKeyboardBuilder()
+    builder.button(text="🆕 Задать новый текст", callback_data="accept_text")
+    builder.button(text="📖 На главную", callback_data="back_button_to_main_menu")
+    builder.adjust(1)
     return builder.as_markup()

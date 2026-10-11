@@ -11,7 +11,7 @@ start_router = Router()
 
 """Блок отвечает за главное меню"""
 
-"""Функция отправляющая главное меню"""
+#Функция отправляющая главное меню
 async def send_start_menu(message: Message | None, callback: CallbackQuery | None, state: FSMContext):
     text = "❇️ Привет, отправь текст для того чтобы я сделал его в красивом стиле."
     photo = FILE_ID_IMAGE
@@ -27,13 +27,13 @@ async def send_start_menu(message: Message | None, callback: CallbackQuery | Non
                                             reply_markup=main_menu_keyboard())
 
 
-"""Реакция на комманду /start"""
+#Реакция на комманду /start
 @start_router.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext):
     await send_start_menu(message, None, state)
 
 
-"""Реакция на кнопку на главную"""
+#Реакция на кнопку на главную
 @start_router.callback_query(F.data=="back_button_to_main_menu")
 async def back_click_to_main(callback: CallbackQuery, state: FSMContext):
     await callback.answer("✅Возвращаемся на главную")
@@ -46,13 +46,13 @@ async def back_click_to_main(callback: CallbackQuery, state: FSMContext):
 
     await send_start_menu(None, callback, state)
 
-"""обработка главного меню"""
+#Oбработка кнопки Инфо
 @start_router.callback_query(F.data == "info")
 async def click_to_info(callback: CallbackQuery):
     await callback.answer("❔Инфо")
 
     try:
-        await callback.message.delete()
+        await callback.message.delete() #удаляем главное меню
     except Exception:
         pass
 

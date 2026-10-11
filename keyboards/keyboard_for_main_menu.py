@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-"""кнопки галвного меню"""
+#кнопки галвного меню
 def main_menu_keyboard():
     builder = InlineKeyboardBuilder()
     builder.button(text="🆕 Отправить текст", callback_data="accept_text")
@@ -7,6 +7,7 @@ def main_menu_keyboard():
     builder.adjust(2)
     return builder.as_markup()
 
+#кнопки в 'Инфо'
 def go_back_to_main_menu():
     builder = InlineKeyboardBuilder()
     builder.button(text="📖 Назад", callback_data="back_button_to_main_menu")
