@@ -9,7 +9,7 @@ from config import FILE_ID_FOR_WAITING_TEXT
 processing_router = Router()
 
 import fancify_text
-shrifts_dict = fonts_map_funcs = { #список функций преобразователей
+shrifts_dict = { #список функций преобразователей
     "sans_serif": fancify_text.sansSerif,
     "bold": fancify_text.bold,
     "italic": fancify_text.italic,
