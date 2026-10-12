@@ -1,0 +1,6 @@
+handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]] # Функция, которая будет вызвана для обработки события
+
+event: TelegramObject, #Здесь хранятся все данные от пользователя: текст сообщения (event.text),
+#ID чата (event.chat.id), имя пользователя (event.from_user.username) и т.п.
+
+data: Dict[str, Any] #Словарь, который может содержать дополнительные данные, переданные в middleware
