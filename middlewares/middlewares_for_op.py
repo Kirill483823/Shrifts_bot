@@ -4,8 +4,7 @@ from aiogram import BaseMiddleware, Bot
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from cashews import cache
 import asyncio
-
-cache.setup("mem://") #в точке входа ппоказываем где будет кэш(в оперативной памяти)
+from errors_processing import error_answer
 
 channel_id = -1002079572984
 states = {"member", "administrator", "creator"}

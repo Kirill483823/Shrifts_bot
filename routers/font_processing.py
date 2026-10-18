@@ -2,9 +2,11 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram import F, Router
 
-from keyboards.keyboard_for_choose_fonts import create_choose_fonts, unknown_error
+from keyboards.keyboard_for_choose_fonts import create_choose_fonts
+from keyboards.errors_keyboards import unknown_error
 from States.bot_states import States_bot
 from config import FILE_ID_FOR_WAITING_TEXT
+from errors_processing import error_answer
 
 processing_router = Router()
 
@@ -34,9 +36,6 @@ shrifts_dict = { #список функций преобразователей
     "magic": fancify_text.magic,
 }
 
-#Oтвет в случае ошибки
-async def error_answer(callback: CallbackQuery, text: str = "⚠️ Ошибка, попробуйте перезапустить бота."):
-    await callback.message.answer(text, reply_markup=unknown_error())
 
 #Обработка нажатия на кнопку 'Oтправить текст' и 'новый текст'
 #и ожидание текста от пользователя
