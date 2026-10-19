@@ -4,7 +4,6 @@ from aiogram import Bot, Dispatcher
 from cashews import cache
 
 from routers import get_routers
-from middlewares.middlewares_for_op import OP_middleWare
 
 #.\.venv\Scripts\Activate.ps1
 #source .venv/Scripts/activate
