@@ -13,10 +13,6 @@ cache.setup("mem://") #создаем хронилище кэша для ОП в
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
-op_middleware = OP_middleWare(bot)
-dp.message.outer_middleware(op_middleware)
-dp.callback_query.outer_middleware(op_middleware)
-
 
 for i in get_routers():
     dp.include_router(i)

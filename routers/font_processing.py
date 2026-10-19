@@ -4,60 +4,10 @@ from aiogram import F, Router
 
 from keyboards.keyboard_for_choose_fonts import create_choose_fonts
 from States.bot_states import States_bot
-from config import FILE_ID_FOR_WAITING_TEXT
 from errors_processing import error_answer
+from routers.Utils_for_font_processing import shrifts_dict
 
 processing_router = Router()
-
-import fancify_text
-shrifts_dict = { #список функций преобразователей
-    "sans_serif": fancify_text.sansSerif,
-    "bold": fancify_text.bold,
-    "italic": fancify_text.italic,
-    "bold_italic": fancify_text.boldItalic,
-    "monospace": fancify_text.monospaced,
-    "wide": fancify_text.wide,
-    "bold_serif": fancify_text.boldSerif,
-    "script": fancify_text.script,
-    "fraktur": fancify_text.fraktur,
-    "double_struck": fancify_text.doubleStruck,
-    "blue": fancify_text.blue,
-    "smallCaps": fancify_text.smallCaps,
-    "curly": fancify_text.curly,
-    "reversed_": fancify_text.reversed_,
-    "upsideDown": fancify_text.upsideDown,
-    "boxed": fancify_text.boxed,
-    "wiry": fancify_text.wiry,
-    "parenthesized": fancify_text.parenthesized,
-    "heavyCircled": fancify_text.heavyCircled,
-    "currency": fancify_text.currency,
-    "cool": fancify_text.cool,
-    "magic": fancify_text.magic,
-}
-
-
-#Обработка нажатия на кнопку 'Oтправить текст' и 'новый текст'
-#и ожидание текста от пользователя
-@processing_router.callback_query(F.data == "accept_text")
-async def waiting_text(callback: CallbackQuery, state: FSMContext):
-
-    await state.clear()
-    await state.set_state(States_bot.wait_send_text)
-
-    photo = FILE_ID_FOR_WAITING_TEXT
-    text = (
-        "❇️ Просто отправь текст:\n\n⚠️ Можно использовать любые буквы, символы и цифры, "
-        "но будут обработаны только латинские (английские) буквы и цифры. "
-        "Остальные символы останутся без изменений."
-    )
-
-    await callback.answer()
-    try:
-        await callback.message.delete()
-    except Exception:
-        pass
-
-    await callback.message.answer_photo(photo=photo, caption=text)
 
 #Получение текста
 @processing_router.message(States_bot.wait_send_text, F.text)
@@ -70,6 +20,7 @@ async def send_keyb_with_srifts(message: Message, state: FSMContext):
     text = data["user_text"]
 
     await message.answer(text, reply_markup=create_choose_fonts(shrifts_dict))
+
 
 #Пользовател выбрал шрифт
 @processing_router.callback_query(F.data.startswith("shrift:"))
