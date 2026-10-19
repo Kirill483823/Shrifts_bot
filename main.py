@@ -1,5 +1,4 @@
 import asyncio
-from aiogram.types import Message
 from config import BOT_TOKEN
 from aiogram import Bot, Dispatcher
 from cashews import cache
@@ -14,7 +13,9 @@ cache.setup("mem://") #создаем хронилище кэша для ОП в
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
-dp.update.middleware(OP_middleWare(bot))  # реакция на любой апдейт
+op_middleware = OP_middleWare(bot)
+dp.message.outer_middleware(op_middleware)
+dp.callback_query.outer_middleware(op_middleware)
 
 
 for i in get_routers():

@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardBuilder
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 #клавиатуры для ошибок
 def unknown_error():

@@ -3,7 +3,6 @@ from aiogram.fsm.context import FSMContext
 from aiogram import F, Router
 
 from keyboards.keyboard_for_choose_fonts import create_choose_fonts
-from keyboards.errors_keyboards import unknown_error
 from States.bot_states import States_bot
 from config import FILE_ID_FOR_WAITING_TEXT
 from errors_processing import error_answer
@@ -46,9 +45,11 @@ async def waiting_text(callback: CallbackQuery, state: FSMContext):
     await state.set_state(States_bot.wait_send_text)
 
     photo = FILE_ID_FOR_WAITING_TEXT
-    text = "❇️ Просто отправьте текст:\n\n⚠️Использовать можно любые буквы, символы, цифры,"\
-           " но обработаются только латинские (английские) буквы и цифры,"\
-           " всё остальное останется без изменений.\n"
+    text = (
+        "❇️ Просто отправь текст:\n\n⚠️ Можно использовать любые буквы, символы и цифры, "
+        "но будут обработаны только латинские (английские) буквы и цифры. "
+        "Остальные символы останутся без изменений."
+    )
 
     await callback.answer()
     try:
@@ -84,7 +85,7 @@ async def text_processing(callback: CallbackQuery, state: FSMContext):
         except Exception:
             pass
 
-        await error_answer(callback, text="⚠️ Ошибка, текст не найден. Задайте новый текст.")
+        await error_answer(callback, text="⚠️ Текст не найден. Отправь новый.")
         return
 
     try: #try нужен на случай если пользователь нажал на туже кнопку два раза

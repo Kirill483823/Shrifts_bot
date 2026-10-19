@@ -13,7 +13,7 @@ start_router = Router()
 
 #Функция отправляющая главное меню
 async def send_start_menu(message: Message | None, callback: CallbackQuery | None, state: FSMContext):
-    text = "❇️ Привет, отправь текст для того чтобы я сделал его в красивом стиле."
+    text = "❇️ Привет! Отправь текст, и я оформлю его красивым шрифтом."
     photo = FILE_ID_IMAGE
 
     await state.clear()
@@ -36,7 +36,7 @@ async def cmd_start(message: Message, state: FSMContext):
 #Реакция на кнопку на главную
 @start_router.callback_query(F.data=="back_button_to_main_menu")
 async def back_click_to_main(callback: CallbackQuery, state: FSMContext):
-    await callback.answer("✅Возвращаемся на главную")
+    await callback.answer("✅ Возвращаемся на главную")
 
     if callback.message:
         try:
@@ -49,13 +49,13 @@ async def back_click_to_main(callback: CallbackQuery, state: FSMContext):
 #Oбработка кнопки Инфо
 @start_router.callback_query(F.data == "info")
 async def click_to_info(callback: CallbackQuery):
-    await callback.answer("❔Инфо")
+    await callback.answer("❔ Информация")
 
     try:
         await callback.message.delete() #удаляем главное меню
     except Exception:
         pass
 
-    text = "🔩 Бот находится в разработке, так что если найдёте ошибку или баг, пишите: @CubikCode"
+    text = "🔩 Бот находится в разработке. Если заметишь ошибку, напиши: @CubikCode."
 
     await callback.message.answer(text, reply_markup=go_back_to_main_menu())
