@@ -1,14 +1,12 @@
 import asyncio
 from config import BOT_TOKEN
 from aiogram import Bot, Dispatcher
-from cashews import cache
 
 from routers import get_routers
 
 #.\.venv\Scripts\Activate.ps1
 #source .venv/Scripts/activate
 
-cache.setup("mem://") #создаем хронилище кэша для ОП в оперативной памяти
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()

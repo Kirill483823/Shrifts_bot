@@ -13,7 +13,7 @@ def runic(text: str):
     return text.translate(table)
 
 
-shrifts_dict = { #список функций преобразователей
+shrifts_dict_page1 = { #список функций преобразователей
     "sans_serif": fancify_text.sansSerif,
     "bold": fancify_text.bold,
     "italic": fancify_text.italic,
@@ -29,6 +29,9 @@ shrifts_dict = { #список функций преобразователей
     "double_struck": fancify_text.doubleStruck,
     "blue": fancify_text.blue,
     "smallCaps": fancify_text.smallCaps,
+}
+
+shrifts_dict_page2 = {
     "curly": fancify_text.curly,
     "reversed_": fancify_text.reversed_,
     "upsideDown": fancify_text.upsideDown,

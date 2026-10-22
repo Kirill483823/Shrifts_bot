@@ -17,6 +17,9 @@ def create_choose_fonts(shrifts_dict: dict):
 
         builder.button(text=text, callback_data=f"shrift:{key}")
 
+
+    builder.button(text="☚", callback_data="go_to_before_page")
+    builder.button(text = "☛", callback_data="go_to_next_page")
     builder.button(text="📖 На главную", callback_data="back_button_to_main_menu")
     builder.button(text="🆕 Новый текст", callback_data="accept_text")
     builder.adjust(2)
