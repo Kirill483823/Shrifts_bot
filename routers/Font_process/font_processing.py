@@ -46,6 +46,7 @@ async def text_processing(callback: CallbackQuery, state: FSMContext):
         return
     try: #try нужен на случай если пользователь нажал на туже кнопку два раза
         key = callback.data.split(':')[1]
+
         current_state = await state.get_state()
         fonts_dict = {
             States_for_pages.be_on_page1.state: shrifts_dict_page1,

@@ -56,6 +56,6 @@ async def click_to_info(callback: CallbackQuery):
     except Exception:
         pass
 
-    text = "🔩 Бот находится в разработке. Если заметишь ошибку, напиши: @CubikCode."
+    text = "🔩 Бот находится в разработке. Если заметишь ошибку, напиши: @KubikCode."
 
     await callback.message.answer(text, reply_markup=go_back_to_main_menu())
