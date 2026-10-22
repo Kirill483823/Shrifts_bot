@@ -29,13 +29,14 @@ async def text_processing(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     message = callback.message
     callback_data = callback.data
+
     if not isinstance(message, Message) or callback_data is None:
         return
 
     data = await state.get_data()
     text = data.get("user_text")
 
-    if text is None:
+    if text is None: #есть ли вообще текст
         await state.clear()
         try:
             await message.delete()
@@ -44,8 +45,9 @@ async def text_processing(callback: CallbackQuery, state: FSMContext):
 
         await error_answer(callback, text="⚠️ Текст не найден. Отправь новый.")
         return
+
     try: #try нужен на случай если пользователь нажал на туже кнопку два раза
-        key = callback.data.split(':')[1]
+        key = callback_data.split(':')[1]
 
         current_state = await state.get_state()
         fonts_dict = {
@@ -53,15 +55,19 @@ async def text_processing(callback: CallbackQuery, state: FSMContext):
             States_for_pages.be_on_page2.state: shrifts_dict_page2,
         }.get(current_state)
 
-        if fonts_dict is None:
-            await error_answer(callback)
-            return
-        if key not in fonts_dict:
+        if fonts_dict is None: #если словаря нет
             await error_answer(callback)
             return
 
+        if key not in fonts_dict: #Если ключ не найден в словаре
+            await error_answer(callback)
+            return
+        #У функций которые могут работать с русскими буквами есть флажок эмодзи(🇷🇺) его надо убрать
+        text_result = fonts_dict[key](text)
+        if text_result.startswith("🇷🇺"):
+            text_result = text_result.removeprefix("🇷🇺")
         keyboard = create_choose_fonts(fonts_dict)
-        await message.edit_text(fonts_dict[key](text), reply_markup=keyboard)
+        await message.edit_text(text_result, reply_markup=keyboard)
 
     except Exception as e:
         if "message is not modified" in str(e).lower():
