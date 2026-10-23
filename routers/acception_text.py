@@ -18,9 +18,7 @@ async def waiting_text(callback: CallbackQuery, state: FSMContext):
 
     photo = FILE_ID_FOR_WAITING_TEXT
     text = (
-        "❇️ Просто отправь текст:\n\n⚠️ Можно использовать любые буквы, символы и цифры. "
-        "Шрифты с флажком '🇷🇺' умеют обрабатывать текст на русском. "\
-        "Все символы которые бот не сможет обработать не изменятся"
+        "❇️ Просто отправь текст:"
     )
 
     await callback.answer()
