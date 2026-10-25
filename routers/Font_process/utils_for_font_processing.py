@@ -22,6 +22,7 @@ def runic(text: str) -> str:
     table = str.maketrans(ORIGINAL, runic_dict)
     return f"{text.translate(table)}"
 
+
 antic_dict = (
     "ꋬꃳꉔ꒯ꏂꊰꍌꀿ꒐꒻ꀘ꒒ꈴꈤꄲꃀꆰꋪꇙ꓄꒤꒦ꅐꉧꌦꁴ"
     "ꋬꃳꉔ꒯ꏂꊰꍌꀿ꒐꒻ꀘ꒒ꈴꈤꄲꃀꆰꋪꇙ꓄꒤꒦ꅐꉧꌦꁴ"
