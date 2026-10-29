@@ -20,7 +20,7 @@ async def send_keyb_with_srifts(message: Message, state: FSMContext):
     data = await state.get_data()
     text = data["user_text"]
 
-    await message.answer(text, reply_markup=create_choose_fonts(shrifts_dict_page1))
+    await message.answer(text, reply_markup=create_choose_fonts(shrifts_dict_page1, None))
 
 
 #Пользовател выбрал шрифт
@@ -66,7 +66,8 @@ async def text_processing(callback: CallbackQuery, state: FSMContext):
         text_result = fonts_dict[key](text)
         if text_result.startswith("🇷🇺"):
             text_result = text_result.removeprefix("🇷🇺")
-        keyboard = create_choose_fonts(fonts_dict)
+
+        keyboard = create_choose_fonts(fonts_dict, text_result)
         await message.edit_text(text_result, reply_markup=keyboard)
 
     except Exception as e:

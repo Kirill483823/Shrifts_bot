@@ -1,9 +1,10 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import InlineKeyboardButton, CopyTextButton
 
 
 
 
-def create_choose_fonts(shrifts_dict: dict):
+def create_choose_fonts(shrifts_dict: dict, user_text: str | None):
     builder = InlineKeyboardBuilder()
     default_text = "Example"
 
@@ -18,9 +19,20 @@ def create_choose_fonts(shrifts_dict: dict):
         builder.button(text=text, callback_data=f"shrift:{key}")
 
 
-    builder.button(text="☚", callback_data="go_to_before_page")
-    builder.button(text = "☛", callback_data="go_to_next_page")
-    builder.button(text="📖 На главную", callback_data="back_button_to_main_menu")
-    builder.button(text="🆕 Новый текст", callback_data="accept_text")
     builder.adjust(2)
+
+    if user_text:
+        builder.row(
+            InlineKeyboardButton(
+                text = "Копировать",
+                copy_text = CopyTextButton(text = user_text)
+            ))
+
+
+    builder.row(InlineKeyboardButton( text="☚", callback_data="go_to_before_page"),
+        InlineKeyboardButton(text = "☛", callback_data="go_to_next_page"))
+
+    builder.row(InlineKeyboardButton(text="📖 На главную", callback_data="back_button_to_main_menu"),
+    InlineKeyboardButton(text="🆕 Новый текст", callback_data="accept_text"))
+
     return builder.as_markup()

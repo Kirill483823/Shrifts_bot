@@ -23,7 +23,9 @@ async def go_to_next_page(callback: CallbackQuery, state: FSMContext):
         return
 
     try:
-        await message.edit_reply_markup(reply_markup=create_choose_fonts(shrifts_dict_page2))
+        await message.edit_reply_markup(
+            reply_markup=create_choose_fonts(shrifts_dict_page2, message.text)
+        )
         await state.set_state(States_for_pages.be_on_page2)
     except Exception as e:
         if "message is not modified" in str(e).lower():
@@ -39,7 +41,9 @@ async def go_to_before_page(callback: CallbackQuery, state: FSMContext):
         return
 
     try:
-        await message.edit_reply_markup(reply_markup=create_choose_fonts(shrifts_dict_page1))
+        await message.edit_reply_markup(
+            reply_markup=create_choose_fonts(shrifts_dict_page1, message.text)
+        )
         await state.set_state(States_for_pages.be_on_page1)
     except Exception as e:
         if "message is not modified" in str(e).lower():

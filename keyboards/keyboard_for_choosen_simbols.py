@@ -1,7 +1,5 @@
 from aiogram.types import InlineKeyboardButton, CopyTextButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from routers.Simbols_process.utils_for_simbols import simbols_list
-
 
 
 def create_chose_simbols(simbols_list: list, chosen_simbol: str | None):
@@ -20,10 +18,10 @@ def create_chose_simbols(simbols_list: list, chosen_simbol: str | None):
 
     builder.row(
         InlineKeyboardButton(
-            text="☛",
+            text="☚",
             callback_data="go_to_before_page_with_simbols"),
         InlineKeyboardButton(
-            text="☚",
+            text="☛",
             callback_data="go_to_next_page_with_simbols"
         ))
 

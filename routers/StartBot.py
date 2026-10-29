@@ -13,10 +13,10 @@ start_router = Router()
 
 #Функция отправляющая главное меню
 async def send_start_menu(message: Message | None, callback: CallbackQuery | None, state: FSMContext):
-    text = "❇️ Привет! Я помогу тебе офрмить твой текст красивым шрифтом его красивым шрифтом.\n\n"\
+    text = "❇️ Привет! Я помогу тебе офрмить твой текст красивым шрифтом.\n\n"\
         "⚠️ Можно использовать любые буквы, символы и цифры. "\
         "Шрифты с флажком '🇷🇺' умеют обрабатывать текст на русском.\n\n"\
-        "✔️ Все символы которые бот не сможет обработать не изменятся"
+        "✔️ Все символы которые бот не сможет обработать не изменятся."
 
     photo = FILE_ID_IMAGE
 
@@ -26,9 +26,11 @@ async def send_start_menu(message: Message | None, callback: CallbackQuery | Non
     if message:
         await message.answer_photo(photo=photo, caption=text,\
                                     reply_markup=main_menu_keyboard())
-    else:
+    elif callback:
         await callback.message.answer_photo(photo=photo, caption=text,\
                                             reply_markup=main_menu_keyboard())
+    else:
+        return
 
 
 #Реакция на комманду /start

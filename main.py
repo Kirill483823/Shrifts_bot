@@ -8,6 +8,10 @@ from routers import get_routers
 #source .venv/Scripts/activate
 
 
+
+
+
+
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
