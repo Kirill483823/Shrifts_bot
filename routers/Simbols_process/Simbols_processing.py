@@ -11,7 +11,7 @@ simbols_router = Router()
 
 #Обработка нажатия на кнопку 'Unicode-Символы'
 @simbols_router.callback_query(F.data == "Unicode_simbols", States_bot.be_in_main_menu)
-async def unicode_simbols(callback: CallbackQuery, state: FSMContext):
+async def unicode_simbols(callback: CallbackQuery):
     await callback.answer()
     await callback.message.answer("Выбери символ из списка", reply_markup=create_chose_simbols(simbols_list, None))
 

@@ -1,13 +1,29 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import InlineKeyboardButton
 
 #кнопки галвного меню
 def main_menu_keyboard():
     builder = InlineKeyboardBuilder()
-    builder.button(text="🆕 Отправить текст", callback_data="accept_text")
-    builder.button(text="ℹ️ Инфо", callback_data="info")
-    builder.button(text="👑 Наш канал", url="https://t.me/YablokoSerials")
-    builder.button(text="Unicode", callback_data="Unicode_simbols")
-    builder.adjust(2)
+
+    builder.row(
+        InlineKeyboardButton(
+            text="🆕 Отправить текст",
+            callback_data="accept_text",
+        )
+    )
+    builder.row(
+        InlineKeyboardButton(
+            text="Unicode-Символы",
+            callback_data="Unicode_simbols",
+        )
+    )
+    builder.row(
+        InlineKeyboardButton(text="ℹ️ Инфо", callback_data="info"),
+        InlineKeyboardButton(
+            text="👑 Наш канал",
+            url="https://t.me/YablokoSerials"
+        )
+    )
     return builder.as_markup()
 
 #кнопки в 'Инфо'

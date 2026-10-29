@@ -18,6 +18,15 @@ def create_chose_simbols(simbols_list: list, chosen_simbol: str | None):
 
         ))
 
+    builder.row(
+        InlineKeyboardButton(
+            text="☛",
+            callback_data="go_to_before_page_with_simbols"),
+        InlineKeyboardButton(
+            text="☚",
+            callback_data="go_to_next_page_with_simbols"
+        ))
+
 
     builder.row(
         InlineKeyboardButton(
